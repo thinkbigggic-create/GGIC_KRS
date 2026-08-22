@@ -95,12 +95,17 @@ textarea{min-height:105px;resize:vertical}
 <label class="chip"><input class="course" type="checkbox" data-price="40000" value="수학">수학</label>
 <label class="chip"><input class="course" type="checkbox" data-price="40000" value="바로쓰기">바로쓰기</label>
 <label class="chip"><input class="course" type="checkbox" data-price="40000" value="스마트한국사">스마트한국사</label>
+<label class="chip"><input class="course" type="checkbox" data-price="45000" value="올수학">올수학 45,000원</label>
 </div>
 </div>
 
 <div class="full summary">
 <div><b>선택 관리 과목</b><div id="selected">과목을 선택해 주세요.</div></div>
-<div><b>총 금액</b><strong id="total">0원</strong></div>
+<div style="text-align:right">
+<div id="regularWrap" style="display:none;font-size:13px;color:#667085">정상가 <span id="regular">0원</span></div>
+<div id="discountWrap" style="display:none;font-size:13px;color:#c2410c;font-weight:800">결합할인 <span id="discount">-0원</span></div>
+<div><b>최종 금액</b> <strong id="total">0원</strong></div>
+</div>
 </div>
 
 <div class="full"><label>제시 대상</label><textarea id="target" required placeholder="예: 한자를 신청한 초등 저학년 학부모"></textarea></div>
@@ -140,10 +145,21 @@ branch.addEventListener("change",()=>manager.value=managers[branch.value]||"");
 
 function calc(){
   const checked=courses.filter(x=>x.checked);
-  const total=checked.reduce((sum,x)=>sum+Number(x.dataset.price||0),0);
-  document.getElementById("selected").textContent=checked.length?checked.map(x=>x.value).join(" + "):"과목을 선택해 주세요.";
+  const names=checked.map(x=>x.value);
+  const regular=checked.reduce((sum,x)=>sum+Number(x.dataset.price||0),0);
+  const has=n=>names.includes(n);
+  let discount=0;
+  if(has("국어") && has("바로독해")) discount+=5000;
+  if(has("수학") && has("바로셈")) discount+=5000;
+  if(has("수학") && has("AI바로셈")) discount+=5000;
+  const total=regular-discount;
+  document.getElementById("selected").textContent=checked.length?names.join(" + "):"과목을 선택해 주세요.";
+  document.getElementById("regular").textContent=regular.toLocaleString()+"원";
+  document.getElementById("discount").textContent="-"+discount.toLocaleString()+"원";
+  document.getElementById("regularWrap").style.display=discount?"block":"none";
+  document.getElementById("discountWrap").style.display=discount?"block":"none";
   document.getElementById("total").textContent=total.toLocaleString()+"원";
-  return {checked,total};
+  return {checked,regular,discount,total};
 }
 courses.forEach(x=>x.addEventListener("change",calc));
 
@@ -187,6 +203,16 @@ let liveCache=[];
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const fmtTime=v=>{try{return new Intl.DateTimeFormat("ko-KR",{month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit"}).format(new Date(v));}catch(e){return "";}};
 
+function getDiscount(selectedCourses){
+  const names=String(selectedCourses||"").split(" + ").filter(Boolean);
+  const has=n=>names.includes(n);
+  let d=0;
+  if(has("국어") && has("바로독해")) d+=5000;
+  if(has("수학") && has("바로셈")) d+=5000;
+  if(has("수학") && has("AI바로셈")) d+=5000;
+  return d;
+}
+
 function renderLive(){
   let data=[...liveCache];
   const b=filterEl.value;
@@ -207,6 +233,7 @@ function renderLive(){
       </div>
       <div class="cardbody">
         <div class="group">${esc(x.consultingGroup)||"-"}</div>
+        ${getDiscount(x.selectedCourses)>0?`<div style="display:inline-block;background:#fff1e8;color:#c2410c;border-radius:999px;padding:5px 8px;font-size:12px;font-weight:900;margin-bottom:5px">결합할인 -${getDiscount(x.selectedCourses).toLocaleString()}원 적용</div>`:""}
         <div class="row"><b>선택 관리 과목</b>${cs.map(c=>`<span class="live-course">${esc(c)}</span>`).join("")||"-"}</div>
         <div class="row"><b>제시 대상</b>${esc(x.target)||"-"}</div>
         <div class="row"><b>상담 소구 포인트 1 · 신규</b>${esc(x.newPoint)||"-"}</div>
@@ -241,11 +268,17 @@ async function loadLive(){
 liveCards.addEventListener("click",async e=>{
   const btn=e.target.closest(".like");
   if(!btn)return;
+  const likeKey="krs_like_"+btn.dataset.id;
+  if(localStorage.getItem(likeKey)){
+    alert("이 컨설팅에는 이미 공감했습니다.");
+    return;
+  }
   btn.disabled=true;
   try{
     const r=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"like",id:btn.dataset.id})});
     const j=await r.json();
     if(!j.success)throw new Error(j.message||"공감 실패");
+    localStorage.setItem(likeKey,"1");
     await loadLive();
   }catch(err){
     alert("공감 처리에 실패했습니다: "+err.message);
