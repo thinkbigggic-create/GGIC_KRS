@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>경기인천 KRS LIVE Board</title>
+<style>
+:root{--navy:#15233b;--blue:#2563eb;--bg:#eef2f7;--line:#dce3ec;--muted:#667085;--card:#fff}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,"Noto Sans KR",sans-serif;background:var(--bg);color:#172033}
+header{position:sticky;top:0;z-index:5;background:var(--navy);color:#fff;padding:18px 24px;box-shadow:0 2px 12px rgba(0,0,0,.14)}
+.top{display:flex;justify-content:space-between;gap:20px;align-items:end;max-width:1600px;margin:auto}
+h1{margin:0;font-size:30px}
+header p{margin:7px 0 0;color:#d7deea}
+.stats{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+.stat{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:8px 12px;font-weight:800}
+main{max-width:1600px;margin:18px auto;padding:0 18px 28px}
+.toolbar{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:14px}
+.toolbar .left{display:flex;gap:8px;flex-wrap:wrap}
+button,select{border:1px solid #cbd5e1;background:#fff;border-radius:10px;padding:9px 12px;font-size:14px;font-weight:700}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 3px 12px rgba(15,23,42,.05)}
+.cardhead{padding:13px 15px;background:#f7f9fc;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:10px;align-items:center}
+.branch{font-size:18px;font-weight:900}
+.amount{font-size:17px;font-weight:900;color:var(--blue);white-space:nowrap}
+.body{padding:15px}
+.group{font-size:19px;font-weight:900;color:#214c9a;line-height:1.35;margin-bottom:10px}
+.row{margin-top:11px;line-height:1.5}
+.row b{display:block;font-size:12px;color:var(--muted);margin-bottom:3px}
+.courses{display:flex;flex-wrap:wrap;gap:6px}
+.course{background:#edf2f7;border-radius:999px;padding:5px 8px;font-size:12px;font-weight:700}
+.footer{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding-top:12px;border-top:1px solid #edf0f4}
+.time{font-size:12px;color:var(--muted)}
+.like{background:#eef3ff;color:#244a9b;border-color:#d8e5ff;cursor:pointer}
+.empty{grid-column:1/-1;text-align:center;background:#fff;border:1px dashed #cbd5e1;border-radius:16px;padding:80px 20px;color:var(--muted);font-size:20px}
+@media(max-width:1250px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:800px){.top{align-items:flex-start;flex-direction:column}.stats{justify-content:flex-start}.cards{grid-template-columns:1fr}h1{font-size:24px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="top">
+    <div>
+      <h1>경기인천 KRS LIVE Board</h1>
+      <p>지국장 과목 컨설팅 · 실시간 공유</p>
+    </div>
+    <div class="stats">
+      <div class="stat">등록 <span id="count">0</span>건</div>
+      <div class="stat">참여 지국 <span id="branches">0</span>개</div>
+      <div class="stat">3초 자동 갱신</div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="toolbar">
+    <div class="left">
+      <select id="sort">
+        <option value="latest">최신순</option>
+        <option value="likes">공감순</option>
+      </select>
+      <select id="filter">
+        <option value="">전체 지국</option>
+      </select>
+    </div>
+    <button id="refresh">새로고침</button>
+  </div>
+  <div id="cards" class="cards"><div class="empty">등록 내용을 불러오는 중입니다.</div></div>
+</main>
+
+<script>
+const API_URL="https://script.google.com/macros/s/AKfycbzfJovFVaL4aFtSXz3_dDwoEWKORo4_PqDLQUZYm-u_FtG42tnEr5XpRqTQdXpMraWp/exec";
+const cards=document.getElementById("cards");
+const countEl=document.getElementById("count");
+const branchesEl=document.getElementById("branches");
+const sortEl=document.getElementById("sort");
+const filterEl=document.getElementById("filter");
+let cache=[];
+
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const fmtTime=v=>{
+  try{
+    const d=new Date(v);
+    return new Intl.DateTimeFormat("ko-KR",{month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit"}).format(d);
+  }catch(e){return "";}
+};
+
+function render(){
+  let data=[...cache];
+  const branch=filterEl.value;
+  if(branch) data=data.filter(x=>x.branch===branch);
+  if(sortEl.value==="likes"){
+    data.sort((a,b)=>(Number(b.likes)||0)-(Number(a.likes)||0));
+  }
+  if(!data.length){
+    cards.innerHTML='<div class="empty">표시할 컨설팅이 없습니다.</div>';
+    return;
+  }
+  cards.innerHTML=data.map(x=>{
+    const courses=String(x.selectedCourses||"").split(" + ").filter(Boolean);
+    return `<article class="card">
+      <div class="cardhead">
+        <div class="branch">${esc(x.branch)} · ${esc(x.manager)}</div>
+        <div class="amount">${Number(x.amount||0).toLocaleString()}원</div>
+      </div>
+      <div class="body">
+        <div class="group">${esc(x.consultingGroup)||"-"}</div>
+        <div class="row"><b>선택 관리 과목</b><div class="courses">${courses.map(c=>`<span class="course">${esc(c)}</span>`).join("") || "-"}</div></div>
+        <div class="row"><b>제시 대상</b><div>${esc(x.target)||"-"}</div></div>
+        <div class="row"><b>상담 소구 포인트 1 · 신규</b><div>${esc(x.newPoint)||"-"}</div></div>
+        <div class="row"><b>상담 소구 포인트 2 · 과입</b><div>${esc(x.overPoint)||"-"}</div></div>
+        <div class="footer">
+          <div class="time">${fmtTime(x.createdAt)}</div>
+          <button class="like" data-id="${esc(x.id)}">공감 ${Number(x.likes)||0}</button>
+        </div>
+      </div>
+    </article>`;
+  }).join("");
+}
+
+async function load(){
+  try{
+    const r=await fetch(API_URL+"?action=list&t="+Date.now(),{cache:"no-store"});
+    const j=await r.json();
+    if(!j.success) throw new Error(j.message||"조회 실패");
+    cache=j.data||[];
+    countEl.textContent=cache.length;
+    branchesEl.textContent=new Set(cache.map(x=>x.branch).filter(Boolean)).size;
+
+    const current=filterEl.value;
+    const branches=[...new Set(cache.map(x=>x.branch).filter(Boolean))].sort();
+    filterEl.innerHTML='<option value="">전체 지국</option>'+branches.map(b=>`<option value="${esc(b)}">${esc(b)}</option>`).join("");
+    if(branches.includes(current)) filterEl.value=current;
+    render();
+  }catch(err){
+    cards.innerHTML='<div class="empty">데이터를 불러오지 못했습니다.<br>'+esc(err.message)+'</div>';
+  }
+}
+
+cards.addEventListener("click",async e=>{
+  const btn=e.target.closest(".like");
+  if(!btn) return;
+  btn.disabled=true;
+  try{
+    const r=await fetch(API_URL,{
+      method:"POST",
+      headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body:JSON.stringify({action:"like",id:btn.dataset.id})
+    });
+    const j=await r.json();
+    if(!j.success) throw new Error(j.message||"공감 실패");
+    await load();
+  }catch(err){
+    alert("공감 처리에 실패했습니다: "+err.message);
+  }finally{
+    btn.disabled=false;
+  }
+});
+
+sortEl.addEventListener("change",render);
+filterEl.addEventListener("change",render);
+document.getElementById("refresh").addEventListener("click",load);
+
+load();
+setInterval(load,3000);
+</script>
+</body>
+</html>
