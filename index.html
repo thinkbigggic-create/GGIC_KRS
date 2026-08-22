@@ -150,8 +150,8 @@ function calc(){
   const has=n=>names.includes(n);
   let discount=0;
   if(has("국어") && has("바로독해")) discount+=5000;
-  if(has("수학") && has("바로셈")) discount+=5000;
-  if(has("수학") && has("AI바로셈")) discount+=5000;
+  if((has("수학") || has("올수학")) && has("바로셈")) discount+=5000;
+  if((has("수학") || has("올수학")) && has("AI바로셈")) discount+=5000;
   const total=regular-discount;
   document.getElementById("selected").textContent=checked.length?names.join(" + "):"과목을 선택해 주세요.";
   document.getElementById("regular").textContent=regular.toLocaleString()+"원";
@@ -208,8 +208,8 @@ function getDiscount(selectedCourses){
   const has=n=>names.includes(n);
   let d=0;
   if(has("국어") && has("바로독해")) d+=5000;
-  if(has("수학") && has("바로셈")) d+=5000;
-  if(has("수학") && has("AI바로셈")) d+=5000;
+  if((has("수학") || has("올수학")) && has("바로셈")) d+=5000;
+  if((has("수학") || has("올수학")) && has("AI바로셈")) d+=5000;
   return d;
 }
 
