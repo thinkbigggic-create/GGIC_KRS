@@ -71,9 +71,19 @@ textarea{min-height:105px;resize:vertical}
 
 <div class="full coursebox">
 <div class="head"><span>KRS</span><span class="tag">런칭 과목</span></div>
+
+<div style="margin-bottom:8px;font-size:13px;color:#667085;line-height:1.5">
+KRS는 단독 신청 시 기본 회비가 적용되며, <b>다른 관리 과목을 함께 신청하면 KRS 회비가 4,000원 할인</b>됩니다.
+</div>
+
 <div class="chips">
-<label class="chip"><input class="course" type="checkbox" data-price="43000" value="KRS">KRS 43,000원</label>
+<label class="chip"><input class="course krs-base" type="radio" name="krsTerm" data-price="47000" data-discount-price="43000" value="KRS(1M)">KRS(1M) 47,000원</label>
+<label class="chip"><input class="course krs-base" type="radio" name="krsTerm" data-price="44000" data-discount-price="40000" value="KRS(12M)">KRS(12M) 44,000원</label>
 <label class="chip"><input class="course" type="checkbox" data-price="39000" value="KRS 관리">KRS 관리 39,000원</label>
+</div>
+
+<div id="krsDiscountNotice" style="display:none;margin-top:10px;background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;border-radius:10px;padding:9px 11px;font-size:13px;font-weight:800">
+KRS + 관리 과목 결합으로 KRS 회비 4,000원 할인 적용
 </div>
 </div>
 
@@ -96,6 +106,12 @@ textarea{min-height:105px;resize:vertical}
 <label class="chip"><input class="course" type="checkbox" data-price="40000" value="바로쓰기">바로쓰기</label>
 <label class="chip"><input class="course" type="checkbox" data-price="40000" value="스마트한국사">스마트한국사</label>
 <label class="chip"><input class="course" type="checkbox" data-price="45000" value="올수학">올수학 45,000원</label>
+<label class="chip"><input id="otherCourse" class="course" type="checkbox" data-price="0" value="기타">기타</label>
+</div>
+<div id="otherFields" style="display:none;margin-top:10px;grid-template-columns:1fr 180px;gap:8px">
+  <input id="otherName" type="text" placeholder="기타 과목명">
+  <input id="otherPrice" type="number" min="0" step="1000" placeholder="금액(원)">
+
 </div>
 </div>
 
@@ -139,29 +155,69 @@ const managers={"경기인천":"육성국장","신부천":"김연진","신부평
 const branch=document.getElementById("branch");
 const manager=document.getElementById("manager");
 const courses=[...document.querySelectorAll(".course")];
+const otherCourse=document.getElementById("otherCourse");
+const otherFields=document.getElementById("otherFields");
+const otherName=document.getElementById("otherName");
+const otherPrice=document.getElementById("otherPrice");
 
 manager.value=managers[branch.value]||"";
 branch.addEventListener("change",()=>manager.value=managers[branch.value]||"");
 
 function calc(){
   const checked=courses.filter(x=>x.checked);
-  const names=checked.map(x=>x.value);
-  const regular=checked.reduce((sum,x)=>sum+Number(x.dataset.price||0),0);
-  const has=n=>names.includes(n);
+
+  const names=checked.map(x=>{
+    if(x.value==="기타" && otherName.value.trim()) return "기타:"+otherName.value.trim();
+    return x.value;
+  });
+
+  const simpleNames=checked.map(x=>x.value);
+  const has=n=>simpleNames.includes(n);
+
+  // KRS 기본 과목(1M/12M) 외에 선택된 관리 과목이 있는지 확인
+  const krsBase = checked.find(x=>x.classList.contains("krs-base"));
+  const otherManagedCourses = checked.filter(x=>!x.classList.contains("krs-base"));
+  const krsLinked = !!krsBase && otherManagedCourses.length > 0;
+
+  let regular=0;
+  checked.forEach(x=>{
+    if(x.value==="기타"){
+      regular += Number(otherPrice.value)||0;
+    } else {
+      regular += Number(x.dataset.price||0);
+    }
+  });
+
   let discount=0;
+
+  // KRS 결합 할인: KRS(1M/12M) + 다른 관리 과목 1개 이상
+  if(krsLinked) discount += 4000;
+
+  // 운영표 결합 할인
   if(has("국어") && has("바로독해")) discount+=5000;
   if((has("수학") || has("올수학")) && has("바로셈")) discount+=5000;
   if((has("수학") || has("올수학")) && has("AI바로셈")) discount+=5000;
+
   const total=regular-discount;
-  document.getElementById("selected").textContent=checked.length?names.join(" + "):"과목을 선택해 주세요.";
+
+  document.getElementById("selected").textContent=
+    checked.length?names.join(" + "):"과목을 선택해 주세요.";
   document.getElementById("regular").textContent=regular.toLocaleString()+"원";
   document.getElementById("discount").textContent="-"+discount.toLocaleString()+"원";
   document.getElementById("regularWrap").style.display=discount?"block":"none";
   document.getElementById("discountWrap").style.display=discount?"block":"none";
   document.getElementById("total").textContent=total.toLocaleString()+"원";
-  return {checked,regular,discount,total};
+  document.getElementById("krsDiscountNotice").style.display=krsLinked?"block":"none";
+
+  return {checked,names,regular,discount,total,krsLinked};
 }
 courses.forEach(x=>x.addEventListener("change",calc));
+otherCourse.addEventListener("change",()=>{
+  otherFields.style.display=otherCourse.checked?"grid":"none";
+  calc();
+});
+otherName.addEventListener("input",calc);
+otherPrice.addEventListener("input",calc);
 
 document.getElementById("form").addEventListener("submit",async e=>{
   e.preventDefault();
@@ -175,7 +231,7 @@ document.getElementById("form").addEventListener("submit",async e=>{
     branch:branch.value,
     manager:manager.value,
     consultingGroup:document.getElementById("consultingGroup").value.trim(),
-    selectedCourses:c.checked.map(x=>x.value).join(" + "),
+    selectedCourses:c.names.join(" + "),
     amount:c.total,
     target:document.getElementById("target").value.trim(),
     newPoint:document.getElementById("newPoint").value.trim(),
@@ -206,10 +262,17 @@ const fmtTime=v=>{try{return new Intl.DateTimeFormat("ko-KR",{month:"2-digit",da
 function getDiscount(selectedCourses){
   const names=String(selectedCourses||"").split(" + ").filter(Boolean);
   const has=n=>names.includes(n);
+
   let d=0;
+
+  const hasKrsBase = has("KRS(1M)") || has("KRS(12M)");
+  const otherCount = names.filter(n=>n!=="KRS(1M)" && n!=="KRS(12M)").length;
+  if(hasKrsBase && otherCount>0) d+=4000;
+
   if(has("국어") && has("바로독해")) d+=5000;
   if((has("수학") || has("올수학")) && has("바로셈")) d+=5000;
   if((has("수학") || has("올수학")) && has("AI바로셈")) d+=5000;
+
   return d;
 }
 
