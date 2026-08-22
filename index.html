@@ -3,39 +3,56 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>KRS LIVE 테스트</title>
+<title>경기인천 KRS LIVE · 과목 컨설팅</title>
 <style>
-:root{--navy:#15233b;--blue:#2f6fed;--bg:#f3f6fb;--card:#fff;--line:#dfe5ee;--muted:#6b7280;--gold:#b8892f}
-*{box-sizing:border-box}body{margin:0;font-family:Arial,"Noto Sans KR",sans-serif;background:var(--bg);color:#182235}
-header{background:linear-gradient(135deg,#132239,#1e3356);color:#fff;padding:25px 22px}
-.wrap{max-width:1050px;margin:auto}h1{margin:0;font-size:27px}header p{margin:8px 0 0;color:#d7deea}
-main{max-width:1050px;margin:22px auto;padding:0 16px}.panel{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px;margin-bottom:18px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.full{grid-column:1/-1}
-label,.legend{display:block;font-size:13px;font-weight:800;margin-bottom:7px;color:#273244}
-select,input,textarea{width:100%;border:1px solid #ccd4df;border-radius:11px;padding:12px 13px;font-size:15px;background:#fff}
-textarea{min-height:105px;resize:vertical}.subject-input{font-weight:700}
-.coursebox{border:1px solid var(--line);border-radius:14px;padding:14px;background:#fafbfd}.group-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;font-weight:800}
-.price-tag{font-size:12px;background:#edf3ff;color:#2555ad;padding:4px 9px;border-radius:99px}
-.chips{display:flex;flex-wrap:wrap;gap:8px}.chip{border:1px solid #cfd8e5;border-radius:999px;padding:8px 11px;background:#fff;font-size:14px;cursor:pointer}.chip input{width:auto;margin-right:6px}
-.summary{display:flex;gap:14px;justify-content:space-between;align-items:center;border-radius:14px;background:#f7f9fc;padding:14px 16px}.summary strong{font-size:20px;color:var(--blue)}
-.note{font-size:12px;color:var(--muted);margin-top:7px}.btn{width:100%;background:var(--blue);color:#fff;border:0;border-radius:11px;padding:14px;font-size:16px;font-weight:800}
-.preview{border-left:4px solid var(--gold);padding-left:14px}.preview h3{margin:0 0 9px}.preview .meta{color:var(--muted);font-size:13px}.preview .row{margin-top:10px;line-height:1.5}.preview b{display:block;font-size:13px;margin-bottom:3px}
-@media(max-width:700px){.grid{grid-template-columns:1fr}.summary{align-items:flex-start;flex-direction:column}}
+:root{--navy:#1d3557;--blue:#2563eb;--bg:#f4f6fa;--line:#dbe2eb;--card:#fff}
+*{box-sizing:border-box} body{margin:0;font-family:Arial,"Noto Sans KR",sans-serif;background:var(--bg);color:#172033}
+header{background:var(--navy);color:#fff;padding:24px 28px}
+header h1{margin:0;font-size:28px} header p{margin:8px 0 0;color:#dbe5f2}
+main{max-width:1120px;margin:22px auto;padding:0 18px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px} .full{grid-column:1/-1}
+label{display:block;font-weight:800;font-size:14px;margin-bottom:7px}
+select,input,textarea{width:100%;border:1px solid #cbd5e1;border-radius:10px;padding:12px;font-size:15px;background:#fff}
+textarea{min-height:105px;resize:vertical}
+.coursebox{border:1px solid var(--line);border-radius:14px;padding:14px;background:#fafbfd}
+.head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-weight:800}
+.tag{font-size:12px;background:#eaf1ff;color:#2555ad;padding:5px 9px;border-radius:99px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid #cfd8e5;border-radius:999px;padding:8px 12px;background:#fff}
+.chip input{width:auto;margin-right:6px}
+.summary{display:flex;justify-content:space-between;gap:15px;align-items:center;background:#f7f9fc;border-radius:14px;padding:14px 16px}
+.summary strong{font-size:21px;color:var(--blue)}
+.btn{width:100%;border:0;border-radius:11px;padding:14px;background:var(--blue);color:#fff;font-weight:800;font-size:16px;cursor:pointer}
+.msg{margin-top:10px;text-align:center;font-weight:800}
+.success{color:#14804a} .error{color:#c62828}
+@media(max-width:700px){.grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<header><div class="wrap"><h1>경기인천 KRS LIVE · 과목 컨설팅</h1><p>지국장 회의에서 과목 조합과 상담 소구를 함께 공유합니다.</p></div></header>
+<header><h1>경기인천 KRS LIVE · 과목 컨설팅</h1><p>지국장 회의에서 과목 조합과 상담 소구를 함께 공유합니다.</p></header>
 <main>
 <section class="panel">
+<form id="form">
 <div class="grid">
-<div><label>지국명</label><select id="branch">
-<option>신부천</option><option>신부평</option><option>동부평</option><option>시화</option><option>시흥</option><option>연수</option><option>인천남동</option><option>인천중부</option><option>부천중상동</option><option>신광명</option><option>영종</option><option>서창논현</option><option>인천계양</option><option>신검단</option><option>인천청라</option><option>송도</option>
-</select></div>
-<div><label>지국장명</label><input id="manager" value="김연진" readonly></div>
-<div class="full"><label>컨설팅 과목군 <span style="font-weight:400;color:#6b7280">· 지국장이 직접 입력</span></label><input class="subject-input" placeholder="예: KRS + 한자 / KRS + 국어 + 바로독해"></div>
+<div>
+<label>지국명</label>
+<select id="branch">
+<option>신부천</option><option>신부평</option><option>동부평</option><option>시화</option>
+<option>시흥</option><option>연수</option><option>인천남동</option><option>인천중부</option>
+<option>부천중상동</option><option>신광명</option><option>영종</option><option>서창논현</option>
+<option>인천계양</option><option>신검단</option><option>인천청라</option><option>송도</option>
+</select>
+</div>
+<div><label>지국장명</label><input id="manager" readonly></div>
+
+<div class="full">
+<label>컨설팅 과목군 · 지국장이 직접 입력</label>
+<input id="consultingGroup" required placeholder="예: KRS + 한자 / KRS + 국어 + 바로독해">
+</div>
 
 <div class="full coursebox">
-<div class="group-title"><span>KRS</span><span class="price-tag">런칭 과목</span></div>
+<div class="head"><span>KRS</span><span class="tag">런칭 과목</span></div>
 <div class="chips">
 <label class="chip"><input class="course" type="checkbox" data-price="43000" value="KRS">KRS 43,000원</label>
 <label class="chip"><input class="course" type="checkbox" data-price="39000" value="KRS 관리">KRS 관리 39,000원</label>
@@ -43,7 +60,7 @@ textarea{min-height:105px;resize:vertical}.subject-input{font-weight:700}
 </div>
 
 <div class="full coursebox">
-<div class="group-title"><span>35,000원 관리 과목군</span><span class="price-tag">동일 가격 과목</span></div>
+<div class="head"><span>35,000원 관리 과목군</span><span class="tag">동일 가격 과목</span></div>
 <div class="chips">
 <label class="chip"><input class="course" type="checkbox" data-price="35000" value="한자">한자</label>
 <label class="chip"><input class="course" type="checkbox" data-price="35000" value="바로독해">바로독해</label>
@@ -54,7 +71,7 @@ textarea{min-height:105px;resize:vertical}.subject-input{font-weight:700}
 </div>
 
 <div class="full coursebox">
-<div class="group-title"><span>40,000원 관리 과목군</span><span class="price-tag">유아 과목 제외</span></div>
+<div class="head"><span>40,000원 관리 과목군</span><span class="tag">유아 과목 제외</span></div>
 <div class="chips">
 <label class="chip"><input class="course" type="checkbox" data-price="40000" value="국어">국어</label>
 <label class="chip"><input class="course" type="checkbox" data-price="40000" value="수학">수학</label>
@@ -63,29 +80,81 @@ textarea{min-height:105px;resize:vertical}.subject-input{font-weight:700}
 </div>
 </div>
 
-<div class="full summary"><div><b>선택 관리 과목</b><div id="selected" class="note">과목을 선택해 주세요.</div></div><div><b>총 금액</b><strong id="total">0원</strong></div></div>
-<div class="full"><label>제시 대상</label><textarea placeholder="예: 한자를 신청한 초등 저학년 학부모 / 책은 읽지만 내용 이해가 약한 회원"></textarea></div>
-<div class="full"><label>상담 소구 포인트 1 · 신규</label><textarea placeholder="신규 상담 시 사용할 실제 문장"></textarea></div>
-<div class="full"><label>상담 소구 포인트 2 · 과입</label><textarea placeholder="기존 회원에게 추가 과목을 제안할 실제 문장"></textarea></div>
-<div class="full"><button class="btn" type="button">컨설팅 등록하기</button></div>
+<div class="full summary">
+<div><b>선택 관리 과목</b><div id="selected">과목을 선택해 주세요.</div></div>
+<div><b>총 금액</b><strong id="total">0원</strong></div>
 </div>
-</section>
 
-<section class="panel preview">
-<h3>등록 후 공유 카드 예시</h3>
-<div class="meta">신부천 · 김연진</div>
-<div class="row"><b>컨설팅 과목군</b>KRS + 한자</div>
-<div class="row"><b>관리 과목 / 총 금액</b>KRS · 한자 / 78,000원</div>
-<div class="row"><b>제시 대상</b>한자를 신청한 초등 저학년 학부모</div>
-<div class="row"><b>신규 상담 소구</b>“한자를 배우는 목적이 결국 어휘력과 문해력을 키우는 데 있다면, 읽기 수준까지 함께 확인해보시는 게 좋습니다.”</div>
+<div class="full"><label>제시 대상</label><textarea id="target" required placeholder="예: 한자를 신청한 초등 저학년 학부모"></textarea></div>
+<div class="full"><label>상담 소구 포인트 1 · 신규</label><textarea id="newPoint" required placeholder="신규 상담 시 사용할 실제 문장"></textarea></div>
+<div class="full"><label>상담 소구 포인트 2 · 과입</label><textarea id="overPoint" required placeholder="기존 회원에게 추가 과목을 제안할 실제 문장"></textarea></div>
+<div class="full"><button class="btn" id="submitBtn">컨설팅 등록하기</button><div id="msg" class="msg"></div></div>
+</div>
+</form>
 </section>
 </main>
 <script>
+const API_URL="https://script.google.com/macros/s/AKfycbzfJovFVaL4aFtSXz3_dDwoEWKORo4_PqDLQUZYm-u_FtG42tnEr5XpRqTQdXpMraWp/exec";
 const managers={"신부천":"김연진","신부평":"권오숙","동부평":"박영주","시화":"오영애","시흥":"최준식","연수":"이민경","인천남동":"김진경","인천중부":"이주란","부천중상동":"노송경","신광명":"장혜정","영종":"송순심","서창논현":"장정민","인천계양":"구덕길","신검단":"안진영","인천청라":"김희진","송도":"김수정"};
-const branch=document.getElementById("branch"), manager=document.getElementById("manager");
-branch.addEventListener("change",()=>manager.value=managers[branch.value]||"");
+
+const branch=document.getElementById("branch");
+const manager=document.getElementById("manager");
 const courses=[...document.querySelectorAll(".course")];
-function calc(){const c=courses.filter(x=>x.checked);const t=c.reduce((s,x)=>s+Number(x.dataset.price),0);document.getElementById("selected").textContent=c.length?c.map(x=>x.value).join(" + "):"과목을 선택해 주세요.";document.getElementById("total").textContent=t.toLocaleString()+"원";}
+
+manager.value=managers[branch.value]||"";
+branch.addEventListener("change",()=>manager.value=managers[branch.value]||"");
+
+function calc(){
+  const checked=courses.filter(x=>x.checked);
+  const total=checked.reduce((sum,x)=>sum+Number(x.dataset.price||0),0);
+  document.getElementById("selected").textContent=
+    checked.length ? checked.map(x=>x.value).join(" + ") : "과목을 선택해 주세요.";
+  document.getElementById("total").textContent=total.toLocaleString()+"원";
+  return {checked,total};
+}
 courses.forEach(x=>x.addEventListener("change",calc));
+
+document.getElementById("form").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const c=calc();
+  if(!c.checked.length){ alert("과목을 하나 이상 선택해 주세요."); return; }
+
+  const btn=document.getElementById("submitBtn");
+  const msg=document.getElementById("msg");
+  btn.disabled=true; btn.textContent="등록 중...";
+  msg.className="msg"; msg.textContent="";
+
+  const body={
+    action:"add",
+    branch:branch.value,
+    manager:manager.value,
+    consultingGroup:document.getElementById("consultingGroup").value.trim(),
+    selectedCourses:c.checked.map(x=>x.value).join(" + "),
+    amount:c.total,
+    target:document.getElementById("target").value.trim(),
+    newPoint:document.getElementById("newPoint").value.trim(),
+    overPoint:document.getElementById("overPoint").value.trim()
+  };
+
+  try{
+    const r=await fetch(API_URL,{
+      method:"POST",
+      headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body:JSON.stringify(body)
+    });
+    const j=await r.json();
+    if(!j.success) throw new Error(j.message||"등록 실패");
+
+    msg.className="msg success";
+    msg.textContent="등록되었습니다.";
+  }catch(err){
+    msg.className="msg error";
+    msg.textContent="등록 실패: "+err.message;
+  }finally{
+    btn.disabled=false;
+    btn.textContent="컨설팅 등록하기";
+  }
+});
 </script>
-</body></html>
+</body>
+</html>
