@@ -62,7 +62,7 @@ textarea{min-height:105px;resize:vertical}
 <option>인천계양</option><option>신검단</option><option>인천청라</option><option>송도</option>
 </select>
 </div>
-<div><label>지국장명</label><input id="manager" readonly></div>
+<div><label>이름</label><input id="manager" placeholder="이름을 입력해 주세요"></div>
 
 <div class="full">
 <label>컨설팅 과목군 · 지국장이 직접 입력</label>
@@ -150,8 +150,6 @@ KRS + 관리 과목 결합으로 KRS 회비 4,000원 할인 적용
 
 <script>
 const API_URL="https://script.google.com/macros/s/AKfycbzfJovFVaL4aFtSXz3_dDwoEWKORo4_PqDLQUZYm-u_FtG42tnEr5XpRqTQdXpMraWp/exec";
-const managers={"경기인천":"육성국장","신부천":"김연진","신부평":"권오숙","동부평":"박영주","시화":"오영애","시흥":"최준식","연수":"이민경","인천남동":"김진경","인천중부":"이주란","부천중상동":"노송경","신광명":"장혜정","영종":"송순심","서창논현":"장정민","인천계양":"구덕길","신검단":"안진영","인천청라":"김희진","송도":"김수정"};
-
 const branch=document.getElementById("branch");
 const manager=document.getElementById("manager");
 const courses=[...document.querySelectorAll(".course")];
@@ -160,8 +158,6 @@ const otherFields=document.getElementById("otherFields");
 const otherName=document.getElementById("otherName");
 const otherPrice=document.getElementById("otherPrice");
 
-manager.value=managers[branch.value]||"";
-branch.addEventListener("change",()=>manager.value=managers[branch.value]||"");
 
 function calc(){
   const checked=courses.filter(x=>x.checked);
