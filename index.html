@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
 <title>경기인천 KRS LIVE · 과목 컨설팅</title>
 <style>
 :root{--navy:#1d3557;--blue:#2563eb;--bg:#f4f6fa;--line:#dbe2eb;--card:#fff;--muted:#667085}
@@ -43,12 +44,18 @@ textarea{min-height:105px;resize:vertical}
 .time{font-size:12px;color:var(--muted)} .like{width:auto;background:#eef3ff;color:#244a9b;border:1px solid #d8e5ff;border-radius:9px;padding:7px 10px;font-weight:800;cursor:pointer}
 .empty{grid-column:1/-1;text-align:center;padding:40px;color:var(--muted);background:#fafbfd;border-radius:12px}
 @media(max-width:760px){.grid,.cards{grid-template-columns:1fr} .live-title{align-items:flex-start;flex-direction:column}}
+
+.synergy-panel{padding:18px}.synergy-intro{margin-bottom:14px}.synergy-intro h2{margin:0 0 6px;font-size:22px;color:var(--navy)}.synergy-intro p{margin:0;color:var(--muted);line-height:1.6}.synergy-image{display:block;width:100%;height:auto;border-radius:12px;border:1px solid var(--line)}
 </style>
 </head>
 <body>
 <header><h1>경기인천 KRS LIVE · 과목 컨설팅</h1><p>지국장 회의에서 과목 조합과 상담 소구를 함께 공유합니다.</p></header>
 
 <main>
+<section class="panel synergy-panel">
+<div class="synergy-intro"><h2>KRS 시너지 프로그램 설계</h2><p>KRS를 중심으로 과목 간 시너지를 설계하고, 현장에서 활용할 상담 소구를 함께 만들어 주세요.</p></div>
+<img src="./krs-synergy.png" alt="KRS 시너지 프로그램 설계 구도" class="synergy-image">
+</section>
 <section class="panel">
 <form id="form">
 <div class="grid">
@@ -73,7 +80,7 @@ textarea{min-height:105px;resize:vertical}
 <div class="head"><span>KRS</span><span class="tag">런칭 과목</span></div>
 
 <div style="margin-bottom:8px;font-size:13px;color:#667085;line-height:1.5">
-KRS는 단독 신청 시 기본 회비가 적용되며, <b>다른 관리 과목을 함께 신청하면 KRS 회비가 4,000원 할인</b>됩니다.
+KRS는 단독 신청 시 기본 회비가 적용되며, <b>다른 과목을 하나라도 함께 신청하면 KRS 회비가 4,000원 할인</b>됩니다.
 </div>
 
 <div class="chips">
@@ -83,7 +90,14 @@ KRS는 단독 신청 시 기본 회비가 적용되며, <b>다른 관리 과목�
 </div>
 
 <div id="krsDiscountNotice" style="display:none;margin-top:10px;background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;border-radius:10px;padding:9px 11px;font-size:13px;font-weight:800">
-KRS + 관리 과목 결합으로 KRS 회비 4,000원 할인 적용
+KRS + 다른 과목 결합으로 KRS 회비 4,000원 할인 적용
+</div>
+</div>
+
+<div class="full coursebox">
+<div class="head"><span>스마트 과목군</span><span class="tag">첫번째 과목</span></div>
+<div class="chips">
+<label class="chip"><input class="course" type="checkbox" data-price="47000" value="스마트 과목군 첫번째 과목">스마트 과목군 첫번째 과목 47,000원</label>
 </div>
 </div>
 
