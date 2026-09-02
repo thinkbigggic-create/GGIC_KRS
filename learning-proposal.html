@@ -20,8 +20,7 @@
 <section class="left">
  <div class="panel"><div class="head"><span class="num">1</span><div><h2>회원 정보</h2></div></div><div class="info"><label class="field">회원 이름<input id="student" class="text" placeholder="예: 김하늘"></label><div class="field">기존 계약번호<label class="check"><input id="contract" type="checkbox"> 다른 계약번호가 있습니다</label></div></div></div>
  <div class="panel"><div class="head"><span class="num">2</span><div><h2>계약·패드 조건</h2><p>회원의 현재 계약 상태에 맞는 금액 기준을 선택해주세요</p></div></div>
- <div class="contract-grid"><label class="field">계약 상태<select id="contractMode" class="select"><option value="new">신규·첫 스마트 과목</option><option value="current">기존 패드·현재 약정 유지</option><option value="renew">약정 종료·재약정</option></select></label><label class="field">금액 기준<select id="pricingMode" class="select"></select></label></div>
- <p id="pricingHelp" class="pricing-help"></p></div>
+ <div class="contract-grid"><label class="field">계약 상태<select id="contractMode" class="select"><option value="new">신규·첫 스마트 과목</option><option value="current">기존 패드·현재 약정 유지</option><option value="renew">약정 종료·재약정</option></select></label><label class="field">금액 기준<select id="pricingMode" class="select"></select></label></div></div>
  <div class="panel picker-panel"><div class="head"><span class="num">3</span><div><h2>수업 형태와 과목 선택</h2><p>수업 형태를 먼저 선택하면 해당 과목만 표시됩니다</p></div></div>
  <div class="quick-krs"><div><b>KRS 추천 메인과목</b><span>학습의 기초는 읽기가 시작입니다.</span></div><div><button onclick="quickAdd('krs1')">KRS 1개월형</button><button onclick="quickAdd('krs12')">KRS 12개월형</button></div></div>
  <div class="picker-grid"><label class="field">수업 형태<select id="routeSelect" class="select"></select></label><label class="field">과목명<select id="productSelect" class="select"></select></label><label class="field picker-search">과목 검색<input id="search" class="text" placeholder="과목명 또는 코드 입력"></label><button id="addProduct" class="add-btn">+ 과목 추가</button></div>
@@ -44,8 +43,6 @@ function renderChoices(){
  if(!options.some(x=>x[0]===state.pricingMode))state.pricingMode=options[0][0];
  $('contractMode').value=state.contractMode;
  $('pricingMode').innerHTML=options.map(x=>`<option value="${x[0]}" ${x[0]===state.pricingMode?'selected':''}>${x[1]}</option>`).join('');
- const help={newPad:'방문 스마트 첫 과목은 47,000원, 센터 태블릿 첫 과목은 기본 회비에 15,000원이 추가됩니다.',promo:'방문 스마트 첫 과목 또는 스마트올 첫 메인과목에서 패드 프로모션 11,000원을 할인합니다.',existingPad:'기존 패드를 사용하는 회원은 운영표 G열 과목 금액을 적용합니다.',paper:'태블릿 추가금액 없이 운영표 G열 금액을 적용합니다.',base:'현재 약정을 유지하는 회원은 운영표 G열 금액을 적용합니다.',re24Pad:'운영표의 재약정 24M·패드 포함 금액을 첫 메인과목에 적용합니다.',re24NoPad:'운영표의 재약정 24M·패드 미포함 금액을 첫 메인과목에 적용합니다.',re12NoPad:'운영표의 재약정 12M·패드 미포함 금액을 첫 메인과목에 적용합니다.',reMonthlyNoPad:'운영표의 재약정 월납·패드 미포함 금액을 첫 메인과목에 적용합니다.'};
- $('pricingHelp').textContent=help[state.pricingMode]||'';
 }
 function setContractMode(v){state.contractMode=v;state.pricingMode=pricingOptions[v][0][0];render()}
 function setPricingMode(v){state.pricingMode=v;render()}
