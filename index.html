@@ -74,12 +74,9 @@ textarea{min-height:105px;resize:vertical}
 </section>
 </main>
 <script>
-const koDay=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul'}).format(new Date());
-const visitKey='krs-site-visit-'+koDay;
 async function record(event){try{await fetch('/api/analytics',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({event}),keepalive:true})}catch(e){}}
 async function loadUsage(){
- let counted=false;try{counted=Boolean(localStorage.getItem(visitKey))}catch(e){}
- if(!counted){await record('visit');try{localStorage.setItem(visitKey,'1')}catch(e){}}
+ await record('visit');
  try{const r=await fetch('/api/analytics',{cache:'no-store'});const j=await r.json();document.getElementById('totalVisits').textContent=Number(j.total?.visits||0).toLocaleString('ko-KR')}catch(e){document.getElementById('totalVisits').textContent='-'}
 }
 document.querySelectorAll('[data-event]').forEach(a=>a.addEventListener('click',()=>record(a.dataset.event)));
