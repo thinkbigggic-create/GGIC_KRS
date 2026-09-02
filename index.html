@@ -54,20 +54,35 @@ textarea{min-height:105px;resize:vertical}
 @media(max-width:520px){.tool-launch{padding:15px}.tool-icon{width:48px;height:48px;flex-basis:48px}.tool-copy b{font-size:17px}.tool-arrow{display:none}}
 
 
-.portal{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:18px}.portal-card{display:flex;flex-direction:column;min-height:180px;text-decoration:none;color:inherit;background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:0 8px 24px rgba(29,53,87,.08);transition:.2s ease}.portal-card:hover{transform:translateY(-3px);box-shadow:0 14px 32px rgba(29,53,87,.14)}.portal-icon{display:grid;place-items:center;width:52px;height:52px;border-radius:15px;font-size:24px;margin-bottom:18px}.portal-card h2{margin:0;color:var(--navy);font-size:19px}.portal-card p{margin:8px 0 20px;color:var(--muted);font-size:13px;line-height:1.6}.portal-go{margin-top:auto;font-size:13px;font-weight:900}.portal-card.calc{border-top:5px solid #1d3557}.portal-card.calc .portal-icon{background:#1d3557;color:#f6c453}.portal-card.calc .portal-go{color:#1d3557}.portal-card.consult{border-top:5px solid #f2b705}.portal-card.consult .portal-icon{background:#f2b705;color:#4b3900}.portal-card.consult .portal-go{color:#9a7200}.portal-card.book{border-top:5px solid #e53935}.portal-card.book .portal-icon{background:#e53935;color:#fff}.portal-card.book .portal-go{color:#c62828}.synergy-intro{margin-bottom:14px}.synergy-intro h2{margin:0;font-size:22px;color:var(--navy)}@media(max-width:760px){.portal{grid-template-columns:1fr}.portal-card{min-height:150px}}
+.usage{display:flex;justify-content:flex-end;min-height:18px;margin:-2px 3px 8px}.usage b{color:#94a3b8;font-size:12px;font-weight:600}.portal{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:18px}.portal-card{display:flex;flex-direction:column;min-height:180px;text-decoration:none;color:inherit;background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:0 8px 24px rgba(29,53,87,.08);transition:.2s ease}.portal-card:hover{transform:translateY(-3px);box-shadow:0 14px 32px rgba(29,53,87,.14)}.portal-icon{display:grid;place-items:center;width:52px;height:52px;border-radius:15px;font-size:24px;margin-bottom:18px}.portal-card h2{margin:0;color:var(--navy);font-size:19px}.portal-card p{margin:8px 0 20px;color:var(--muted);font-size:13px;line-height:1.6}.portal-go{margin-top:auto;font-size:13px;font-weight:900}.portal-card.calc{border-top:5px solid #1d3557}.portal-card.calc .portal-icon{background:#1d3557;color:#f6c453}.portal-card.calc .portal-go{color:#1d3557}.portal-card.consult{border-top:5px solid #f2b705}.portal-card.consult .portal-icon{background:#f2b705;color:#4b3900}.portal-card.consult .portal-go{color:#9a7200}.portal-card.book{border-top:5px solid #e53935}.portal-card.book .portal-icon{background:#e53935;color:#fff}.portal-card.book .portal-go{color:#c62828}.synergy-intro{margin-bottom:14px}.synergy-intro h2{margin:0;font-size:22px;color:var(--navy)}@media(max-width:760px){.portal{grid-template-columns:1fr}.portal-card{min-height:150px}}
+
+.usage{display:flex;justify-content:flex-end;min-height:18px;margin:-2px 3px 8px}.usage b{color:#94a3b8;font-size:12px;font-weight:600}.portal{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:18px}.portal-card{display:flex;flex-direction:column;min-height:180px;text-decoration:none;color:inherit;background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:0 8px 24px rgba(29,53,87,.08);transition:.2s ease}.portal-card:hover{transform:translateY(-3px);box-shadow:0 14px 32px rgba(29,53,87,.14)}.portal-icon{display:grid;place-items:center;width:52px;height:52px;border-radius:15px;font-size:24px;margin-bottom:18px}.portal-card h2{margin:0;color:var(--navy);font-size:19px}.portal-card p{margin:8px 0 20px;color:var(--muted);font-size:13px;line-height:1.6}.portal-go{margin-top:auto;font-size:13px;font-weight:900}.portal-card.calc{border-top:5px solid #1d3557}.portal-card.calc .portal-icon{background:#1d3557;color:#f6c453}.portal-card.calc .portal-go{color:#1d3557}.portal-card.consult{border-top:5px solid #f2b705}.portal-card.consult .portal-icon{background:#f2b705;color:#4b3900}.portal-card.consult .portal-go{color:#9a7200}.portal-card.book{border-top:5px solid #e53935}.portal-card.book .portal-icon{background:#e53935;color:#fff}.portal-card.book .portal-go{color:#c62828}.synergy-intro{margin-bottom:14px}.synergy-intro h2{margin:0;font-size:22px;color:var(--navy)}@media(max-width:760px){.portal{grid-template-columns:1fr}.portal-card{min-height:150px}}
 </style>
 </head>
 <body>
 <header><h1>웅진씽크빅 경기인천사업본부용</h1><p>KRS를 품고, 현장에서 계속 꺼내 쓰는 상담 무기를 함께 만듭니다.</p></header>
 <main>
+<div class="usage" aria-hidden="true"><b id="totalVisits">-</b></div>
 <section class="portal" aria-label="업무 도구">
- <a class="portal-card calc" href="./learning-proposal.html"><span class="portal-icon">▦</span><h2>학습제안계산기</h2><p>과목을 선택하면 결합 할인과 고객 제안 금액을 바로 계산합니다.</p><span class="portal-go">계산기 열기 →</span></a>
- <a class="portal-card consult" href="./consulting.html"><span class="portal-icon">✎</span><h2>상담안 만들기</h2><p>신규·과입 상담 소구를 작성하고 다른 지국의 현장 사례와 공유합니다.</p><span class="portal-go">상담안 작성하기 →</span></a>
- <a class="portal-card book" href="./krs-preview.html" target="_blank" rel="noopener"><span class="portal-icon">▤</span><h2>KRS 코어리딩북 미리보기</h2><p>상담 전에 코어리딩북의 구성과 학습 흐름을 빠르게 확인합니다.</p><span class="portal-go">미리보기 열기 ↗</span></a>
+ <a class="portal-card calc" data-event="calculator" href="./learning-proposal.html"><span class="portal-icon">▦</span><h2>학습제안계산기</h2><p>과목을 선택하면 결합 할인과 고객 제안 금액을 바로 계산합니다.</p><span class="portal-go">계산기 열기 →</span></a>
+ <a class="portal-card consult" data-event="consulting" href="./consulting.html"><span class="portal-icon">✎</span><h2>상담안 만들기</h2><p>신규·과입 상담 소구를 작성하고 다른 지국의 현장 사례와 공유합니다.</p><span class="portal-go">상담안 작성하기 →</span></a>
+ <a class="portal-card book" data-event="book" href="./krs-preview.html" target="_blank" rel="noopener"><span class="portal-icon">▤</span><h2>KRS 코어리딩북 미리보기</h2><p>상담 전에 코어리딩북의 구성과 학습 흐름을 빠르게 확인합니다.</p><span class="portal-go">미리보기 열기 ↗</span></a>
 </section>
 <section class="panel synergy-panel">
 <div class="synergy-intro"><h2>KRS 시너지 프로그램</h2></div>
 <img src="./krs-synergy.png" alt="KRS 시너지 프로그램 설계 구도" class="synergy-image">
 </section>
 </main>
+<script>
+const koDay=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul'}).format(new Date());
+const visitKey='krs-site-visit-'+koDay;
+async function record(event){try{await fetch('/api/analytics',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({event}),keepalive:true})}catch(e){}}
+async function loadUsage(){
+ let counted=false;try{counted=Boolean(localStorage.getItem(visitKey))}catch(e){}
+ if(!counted){await record('visit');try{localStorage.setItem(visitKey,'1')}catch(e){}}
+ try{const r=await fetch('/api/analytics',{cache:'no-store'});const j=await r.json();document.getElementById('totalVisits').textContent=Number(j.total?.visits||0).toLocaleString('ko-KR')}catch(e){document.getElementById('totalVisits').textContent='-'}
+}
+document.querySelectorAll('[data-event]').forEach(a=>a.addEventListener('click',()=>record(a.dataset.event)));
+loadUsage();
+</script>
 </body></html>
