@@ -85,6 +85,7 @@ function partnerMatch(selected,target,patterns){
 function xNoteDiscount(p,selected){
  const n=p.note||'',rules=[],otherNames=selected.filter(x=>x.id!==p.id).map(x=>x.name);
  if(p.code==='1631'&&selected.some(x=>x.code==='3049'))return 7500;
+ if(p.code==='1459'&&selected.some(x=>x.code==='3204'||x.code==='3205'))return 5000;
  if((p.code==='1022'||p.code==='1087')&&otherNames.some(x=>x.includes('스마트올중학대치관')||x.includes('스마트올쿠키 플러스')))return 0;
  if(p.code==='1434')rules.push([['스마트올','스마트수학','서술형수학','수학','센)AI수학프로그램_기본','센)AI수학프로그램_심화'],5000]);
  if(p.code==='1022')rules.push([['스마트올','스마트수학','서술형수학','수학'],5000]);
@@ -120,7 +121,7 @@ function calculate(){
     if(Number.isFinite(renewFee)){charge=renewFee;reason=renewalLabel(state.pricingMode);mainApplied=true}
    }else if(state.contractMode==='new'&&state.pricingMode==='newPad'){
     if(p.smartVisit){charge=47000;reason='방문 스마트 첫 과목 · 콘텐츠 36,000원 + 패드 11,000원';mainApplied=true}
-    else if(isCenterProduct(p)){charge=p.fee+15000;reason='센터 태블릿 · 패드 11,000원 + 첫 과목 4,000원';mainApplied=true}
+    else if(isCenterProduct(p)){charge=p.fee+15000;reason='센터 태블릿 수업 이용료 15,000원 포함';mainApplied=true}
    }else if(state.contractMode==='new'&&state.pricingMode==='promo'&&p.smartVisit){charge=47000;padPromo=11000;reason='방문 스마트 첫 과목 · 패드 프로모션';mainApplied=true}
    else if(state.contractMode==='new'&&state.pricingMode==='promo'&&isSmartAllProduct(p)){charge=p.fee;padPromo=11000;reason='스마트올 과목군 · 패드 프로모션';mainApplied=true}
   }
