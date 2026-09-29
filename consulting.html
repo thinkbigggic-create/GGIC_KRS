@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>경기인천 KRS LIVE · 과목 컨설팅</title>
+<title>KRS LIVE · 과목 컨설팅</title>
 <style>
 :root{--navy:#1d3557;--blue:#2563eb;--bg:#f4f6fa;--line:#dbe2eb;--card:#fff;--muted:#667085}
 *{box-sizing:border-box}
@@ -53,31 +53,27 @@ textarea{min-height:105px;resize:vertical}
 .tool-copy b{display:block;font-size:19px;color:var(--navy);margin-bottom:5px}.tool-copy span{font-size:13px;color:var(--muted);line-height:1.5}.tool-arrow{display:grid;place-items:center;width:36px;height:36px;flex:0 0 36px;border-radius:50%;background:#eaf1ff;color:#2555ad;font-weight:900;font-size:18px}
 @media(max-width:520px){.tool-launch{padding:15px}.tool-icon{width:48px;height:48px;flex-basis:48px}.tool-copy b{font-size:17px}.tool-arrow{display:none}}
 
-.back-home{display:inline-flex;margin:0 0 14px;color:#1d3557;text-decoration:none;font-size:13px;font-weight:900}.back-home:hover{text-decoration:underline}</style>
+.back-home{display:inline-flex;margin:0 0 14px;color:#1d3557;text-decoration:none;font-size:13px;font-weight:900}.back-home:hover{text-decoration:underline}header{position:relative}.page-count{position:absolute;right:28px;top:24px;color:#8fa5c0;font-size:11px;font-weight:700}</style>
 </head>
 <body>
-<header><h1>상담안 만들기</h1><p>KRS를 품고 현장에서 바로 활용할 상담 소구를 함께 만들고 공유합니다.</p></header>
+<header><h1>상담안 만들기</h1><p>KRS를 품고 현장에서 바로 활용할 상담 소구를 함께 만들고 공유합니다.</p><span id="pageCount" class="page-count"></span></header>
 
 <main><a class="back-home" href="./index.html">← 메인으로 돌아가기</a>
 
-
+<section class="panel synergy-panel">
+<div class="synergy-intro"><h2>KRS 시너지 프로그램 설계</h2><p>KRS를 중심으로 과목 간 시너지를 설계하고, 현장에서 활용할 상담 소구를 함께 만들어 주세요.</p></div>
+<div class="preview-link-wrap"><a class="preview-link" href="./krs-preview.html" target="_blank" rel="noopener"><span>📖 KRS 코어리딩북 미리보기</span><span class="arrow">↗</span></a></div>
+<img src="./krs-synergy.png" alt="KRS 시너지 프로그램 설계 구도" class="synergy-image">
+</section>
 <section class="panel">
 <form id="form">
 <div class="grid">
-<div>
-<label>지국명</label>
-<select id="branch">
-<option>경기인천</option>
-<option>신부천</option><option>신부평</option><option>동부평</option><option>시화</option>
-<option>시흥</option><option>연수</option><option>인천남동</option><option>인천중부</option>
-<option>부천중상동</option><option>신광명</option><option>영종</option><option>서창논현</option>
-<option>인천계양</option><option>신검단</option><option>인천청라</option><option>송도</option>
-</select>
-</div>
-<div><label>이름</label><input id="manager" placeholder="이름을 입력해 주세요"></div>
+<div><label>사업본부명</label><input id="headquarters" required placeholder="예: 경기인천사업본부"></div>
+<div><label>지국명</label><input id="branch" required placeholder="예: 신부천지국"></div>
+<div class="full"><label>이름</label><input id="manager" required placeholder="이름을 입력해 주세요"></div>
 
 <div class="full">
-<label>컨설팅 과목군 · 지국장이 직접 입력</label>
+<label>컨설팅 과목군 · 직접 입력</label>
 <input id="consultingGroup" required placeholder="예: KRS + 한자 / KRS + 국어 + 바로독해">
 </div>
 
@@ -154,7 +150,7 @@ KRS + 다른 과목 결합으로 KRS 회비 4,000원 할인 적용
 <section class="panel">
   <div class="live-title">
     <div>
-      <h2>다른 지국 컨설팅 LIVE</h2>
+      <h2>전국 컨설팅 LIVE</h2>
       <div class="live-meta">등록 <span id="liveCount">0</span>건 · 3초 자동 갱신</div>
     </div>
   </div>
@@ -169,6 +165,7 @@ KRS + 다른 과목 결합으로 KRS 회비 4,000원 할인 적용
 
 <script>
 const API_URL="https://script.google.com/macros/s/AKfycbzfJovFVaL4aFtSXz3_dDwoEWKORo4_PqDLQUZYm-u_FtG42tnEr5XpRqTQdXpMraWp/exec";
+const headquarters=document.getElementById("headquarters");
 const branch=document.getElementById("branch");
 const manager=document.getElementById("manager");
 const courses=[...document.querySelectorAll(".course")];
@@ -176,6 +173,15 @@ const otherCourse=document.getElementById("otherCourse");
 const otherFields=document.getElementById("otherFields");
 const otherName=document.getElementById("otherName");
 const otherPrice=document.getElementById("otherPrice");
+
+headquarters.value=localStorage.getItem("krs_headquarters")||"";
+branch.value=localStorage.getItem("krs_branch")||"";
+manager.value=localStorage.getItem("krs_manager")||"";
+[headquarters,branch,manager].forEach(el=>el.addEventListener("input",()=>{
+  localStorage.setItem("krs_headquarters",headquarters.value.trim());
+  localStorage.setItem("krs_branch",branch.value.trim());
+  localStorage.setItem("krs_manager",manager.value.trim());
+}));
 
 
 function calc(){
@@ -243,7 +249,8 @@ document.getElementById("form").addEventListener("submit",async e=>{
   btn.disabled=true;btn.textContent="등록 중...";msg.className="msg";msg.textContent="";
   const body={
     action:"add",
-    branch:branch.value,
+    branch:[headquarters.value.trim(),branch.value.trim()].filter(Boolean).join(" · "),
+    headquarters:headquarters.value.trim(),
     manager:manager.value,
     consultingGroup:document.getElementById("consultingGroup").value.trim(),
     selectedCourses:c.names.join(" + "),
@@ -367,6 +374,7 @@ sortEl.addEventListener("change",renderLive);
 filterEl.addEventListener("change",renderLive);
 document.getElementById("refreshLive").addEventListener("click",loadLive);
 
+fetch('/api/analytics',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({event:'consulting'}),cache:'no-store'}).then(r=>r.ok?r.json():null).then(d=>{if(d&&Number.isFinite(Number(d.value)))document.getElementById('pageCount').textContent=Number(d.value).toLocaleString('ko-KR')}).catch(()=>{});
 loadLive();
 setInterval(loadLive,3000);
 </script>
