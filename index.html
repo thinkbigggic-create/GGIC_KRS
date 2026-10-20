@@ -59,6 +59,9 @@ textarea{min-height:105px;resize:vertical}
 .member-preview{display:grid;grid-template-columns:1fr 24px 1fr;align-items:center;gap:7px;margin:-2px 0 16px}.mini-sheet{overflow:hidden;border:1px solid #b8c7c3;border-radius:8px;background:#fff;box-shadow:0 3px 8px rgba(15,118,110,.08)}.mini-sheet.next{border-color:#e2bca7}.mini-title{padding:6px 5px;background:#e6f3f0;color:#0f625c;text-align:center;font-size:10px;font-weight:900}.mini-sheet.next .mini-title{background:#fff0e7;color:#9a4f28}.mini-row{display:flex;justify-content:space-between;gap:5px;padding:5px 7px;border-top:1px dotted #ced8d5;color:#56636f;font-size:8px}.mini-row b{color:#17233d}.mini-total{display:flex;justify-content:space-between;padding:6px 7px;background:#f3f7f6;color:#17233d;font-size:9px;font-weight:900}.mini-sheet.next .mini-total{background:#fff4ed}.mini-arrow{text-align:center;color:#ef6c57;font-size:22px;font-weight:900}.member-label{display:inline-block;width:max-content;margin:0 0 7px;padding:4px 8px;border-radius:999px;background:#e7f5f2;color:#0f766e;font-size:10px;font-weight:900}@media(max-width:520px){.member-preview{grid-template-columns:1fr 18px 1fr;gap:4px}.mini-arrow{font-size:17px}.mini-row{padding:4px;font-size:7px}.mini-total{padding:5px 4px;font-size:8px}}
 .kids-banner{width:100%;text-align:left;font-family:inherit;cursor:pointer;border-left:5px solid #0f766e}
 .kids-card{width:100%;text-align:left;font-family:inherit;cursor:pointer}
+.portal-card.ggic-kids{grid-column:1/-1;min-height:145px;border-top:5px solid #db2777;background:linear-gradient(135deg,#fff 0%,#fff1f7 100%)}
+.portal-card.ggic-kids .portal-icon{background:#db2777;color:#fff}
+.portal-card.ggic-kids .portal-go{color:#be185d}
 .kids-banner .tool-icon{background:#0f766e;color:#fff}
 .kids-dialog{width:min(520px,calc(100% - 28px));max-height:calc(100dvh - 32px);overflow:auto;padding:26px;border:1px solid var(--line);border-radius:20px;color:#172033;box-shadow:0 24px 80px #17203333}
 .kids-dialog::backdrop{background:rgba(15,23,42,.55)}
@@ -91,6 +94,7 @@ textarea{min-height:105px;resize:vertical}
  <button type="button" class="portal-card test kids-card" id="kidsOpen" aria-haspopup="dialog" aria-controls="kidsDialog"><span class="portal-icon">✓</span><h2>유아 진단검사</h2><p>사업본부와 지국을 선택하고 해당 지국의 전용 검사를 시작합니다.</p><span class="portal-go">사업본부·지국 선택하기 →</span></button>
  <div class="portal-card elementary pending" aria-label="초등 진단검사 연결 준비 중"><span class="portal-icon">✓</span><h2>초등 진단검사</h2><p>초등 회원 진단검사 연결 주소를 준비하고 있습니다.</p><span class="portal-go">연결 준비 중</span></div>
  <a class="portal-card book" href="./krs-preview.html" target="_blank" rel="noopener"><span class="portal-icon">▤</span><h2>KRS 코어리딩북 미리보기</h2><p>상담 전에 코어리딩북의 구성과 학습 흐름을 빠르게 확인합니다.</p><span class="portal-go">미리보기 열기 ↗</span></a>
+ <a class="portal-card ggic-kids" href="https://kidscheck.wjtb.kr/?code=8508" target="_blank" rel="noopener"><span class="portal-icon">✓</span><h2>유아진단검사 경기인천전용</h2><p>경기인천사업본부 전용 유아진단검사 페이지로 바로 이동합니다.</p><span class="portal-go">경기인천 전용 검사 시작하기 ↗</span></a>
 </section>
 <section class="panel synergy-panel">
 <div class="synergy-intro"><h2>KRS 시너지 프로그램</h2></div>
